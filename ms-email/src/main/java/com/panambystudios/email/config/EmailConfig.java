@@ -1,15 +1,23 @@
 package com.panambystudios.email.config;
 
 import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.bind.annotation.RestController;
  
 @Configuration
+@RestController
 public class EmailConfig 
 {
+	
+	@Value("${spring.mail.password}")
+	private String emailPass;
+	
     @Bean
     public JavaMailSender getJavaMailSender() 
     {
@@ -18,7 +26,7 @@ public class EmailConfig
         mailSender.setPort(587);
           
         mailSender.setUsername("rafa.souza.test@gmail.com");
-        mailSender.setPassword("T3st3123456");
+        mailSender.setPassword(emailPass);
           
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
